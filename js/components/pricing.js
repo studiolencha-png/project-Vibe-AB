@@ -1,34 +1,38 @@
 // js/components/pricing.js
-// Блок цены
+// Цена — тёмная тема, золотая рамка, золотая цена
 
-/**
- * @returns {string} HTML блока цены
- */
 export function renderPricing() {
   return `
     <section id="pricing" class="section">
+      <div class="section-label">Доступ к материалам</div>
+      <h2 class="section-title">White Box</h2>
+
       <div class="pricing-card card">
         <div class="pricing-badge">Цифровой разбор</div>
 
-        <div class="pricing-name">White Box</div>
+        <div class="pricing-name">Разбор White Box</div>
         <div class="pricing-tagline">
-          Понять, что проверить до начала чистовой
+          6 ключевых зон · Что улучшить за небольшие деньги
         </div>
 
-        <div class="divider" style="margin: 16px 0"></div>
+        <div class="divider"></div>
 
         <div class="pricing-includes">
           <div class="pricing-include-item">
             <i data-lucide="check" class="pricing-check-icon"></i>
-            <span>Разбор 5 ключевых зон риска White Box</span>
+            <span>Разбор 6 зон: стены, окна, отопление, полы, электрика, коммуникации</span>
           </div>
           <div class="pricing-include-item">
             <i data-lucide="check" class="pricing-check-icon"></i>
-            <span>Что проверить, оставить и переделать</span>
+            <span>Что проверить, оставить и где улучшить</span>
           </div>
           <div class="pricing-include-item">
             <i data-lucide="check" class="pricing-check-icon"></i>
-            <span>Дефекты, которые нельзя закрывать чистовой</span>
+            <span>Где экономить разумно, а где нельзя</span>
+          </div>
+          <div class="pricing-include-item">
+            <i data-lucide="check" class="pricing-check-icon"></i>
+            <span>Подходит для White Box и черновой квартиры</span>
           </div>
           <div class="pricing-include-item">
             <i data-lucide="check" class="pricing-check-icon"></i>
@@ -36,7 +40,7 @@ export function renderPricing() {
           </div>
         </div>
 
-        <div class="divider" style="margin: 16px 0"></div>
+        <div class="divider"></div>
 
         <div class="pricing-price-row">
           <div class="pricing-price">1 990 <span class="pricing-currency">₽</span></div>
@@ -48,7 +52,7 @@ export function renderPricing() {
           class="btn-primary btn-press pricing-btn"
           onclick="window.notibot?.hapticImpact?.('medium')"
         >
-          Проверить White Box
+          Получить разбор
         </button>
 
         <p class="pricing-guarantee">
@@ -59,9 +63,8 @@ export function renderPricing() {
       <div class="pricing-note">
         <i data-lucide="info" class="pricing-note-icon"></i>
         <p>
-          Разбор помогает принять решение до начала чистовой.
-          Он не заменяет выездной технадзор, если нужен полный
-          контроль на объекте.
+          Разбор не заменяет выездной технадзор, если нужен
+          полный контроль на объекте.
         </p>
       </div>
     </section>

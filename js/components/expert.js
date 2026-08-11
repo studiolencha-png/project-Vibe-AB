@@ -1,58 +1,61 @@
 // js/components/expert.js
-// Блок «Эксперт» — Алексей Белянин / AB Studio
+// Эксперт — тёмная тема, фото с Unsplash, статистика
 
-/**
- * @returns {string} HTML блока эксперта
- */
 export function renderExpert() {
   return `
     <section id="expert" class="section">
-      <h2 class="section-title">Об эксперте</h2>
+      <div class="section-label">Кто объясняет</div>
+      <h2 class="section-title">Эксперт</h2>
 
       <div class="expert-card card">
-        <div class="expert-avatar">
-          <div class="expert-avatar-circle">
-            <i data-lucide="user" class="w-8 h-8 expert-avatar-icon"></i>
-          </div>
+        <div class="expert-photo-wrap">
+          <img
+            class="expert-photo"
+            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80"
+            alt="Алексей Белянин — руководитель AB Studio"
+            loading="lazy"
+          />
+          <div class="expert-photo-overlay"></div>
         </div>
 
         <div class="expert-body">
-          <div class="expert-name">Алексей Белянин</div>
-          <div class="expert-role">Основатель AB Studio · Самара</div>
+          <div class="expert-name">Белянин Алексей</div>
+          <div class="expert-role">Руководитель AB Studio · Самара</div>
 
-          <div class="divider" style="margin: 12px 0"></div>
-
-          <p class="expert-desc">
-            Практикующий эксперт по&nbsp;ремонту квартир
-            и&nbsp;дизайну интерьера. Системный, технически
-            грамотный подход — инженерная глубина, контроль
-            качества, объяснение сложных процессов простым языком.
-          </p>
-
-          <div class="expert-media">
-            <div class="expert-media-item">
-              <i data-lucide="youtube" class="w-4 h-4 expert-media-icon"></i>
-              <span>YouTube</span>
+          <div class="expert-stats">
+            <div class="expert-stat">
+              <div class="expert-stat-bullet"></div>
+              <span>Отделочник со стажем более <strong>12 лет</strong></span>
             </div>
-            <div class="expert-media-item">
-              <i data-lucide="send" class="w-4 h-4 expert-media-icon"></i>
-              <span>Telegram</span>
+            <div class="expert-stat">
+              <div class="expert-stat-bullet"></div>
+              <span>Сдано более <strong>2700 м²</strong></span>
             </div>
-            <div class="expert-media-item">
-              <i data-lucide="tv-2" class="w-4 h-4 expert-media-icon"></i>
-              <span>ТВ-эфиры</span>
+            <div class="expert-stat">
+              <div class="expert-stat-bullet"></div>
+              <span>Принято у застройщика более <strong>300 квартир</strong></span>
+            </div>
+            <div class="expert-stat">
+              <div class="expert-stat-bullet"></div>
+              <span>Более <strong>1,65 млн</strong> просмотров на YouTube</span>
+            </div>
+            <div class="expert-stat">
+              <div class="expert-stat-bullet"></div>
+              <span>Основатель студии ремонта премиум-класса AB Studio</span>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="expert-mission">
-        <i data-lucide="quote" class="expert-mission-quote"></i>
-        <p>
-          AB Studio — не&nbsp;инфобизнес и&nbsp;не&nbsp;«красивые картинки».
-          Это практика, реальные объекты, инженерная глубина
-          и&nbsp;помощь человеку в&nbsp;контроле ремонта.
-        </p>
+          <div class="expert-media">
+            <a class="expert-media-btn" href="https://t.me/abstudio" target="_blank" rel="noopener">
+              <i data-lucide="send" class="w-4 h-4"></i>
+              Telegram
+            </a>
+            <a class="expert-media-btn" href="https://www.youtube.com/@abstudio" target="_blank" rel="noopener">
+              <i data-lucide="youtube" class="w-4 h-4"></i>
+              YouTube
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   `;

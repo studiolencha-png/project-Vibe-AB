@@ -1,22 +1,22 @@
 // js/components/final-cta.js
-// Финальный блок CTA
+// Финальный CTA — тёмный фон с фото, золотой акцент
 
-/**
- * @returns {string} HTML финального CTA
- */
 export function renderFinalCta() {
   return `
-    <section id="final-cta" class="section final-cta-section">
+    <section id="final-cta" class="final-cta-section">
+      <div class="final-cta-bg"></div>
+      <div class="final-cta-overlay"></div>
+
       <div class="final-cta-inner">
         <h2 class="final-cta-title">
           Перед чистовой важно понять,
-          что у вас уже сделано
+          <em>что у вас уже сделано</em>
         </h2>
 
         <p class="final-cta-text">
-          Разберитесь, что в White Box оставить, что проверить
-          и что действительно переделать — до того,
-          как начнёте чистовую.
+          Разберитесь, что в White Box оставить, что улучшить
+          за небольшие деньги и что действительно
+          переделать — до начала финишной отделки.
         </p>
 
         <button
@@ -24,11 +24,10 @@ export function renderFinalCta() {
           class="btn-primary btn-press final-cta-btn"
           onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})"
         >
-          Проверить White Box — 1&nbsp;990&nbsp;₽
+          Получить разбор — 1&nbsp;990&nbsp;₽
         </button>
-
         <p class="final-cta-hint">
-          Цифровой разбор · Без подхода «сносить всё»
+          Доступ сразу · Без подхода «сносить всё»
         </p>
       </div>
     </section>

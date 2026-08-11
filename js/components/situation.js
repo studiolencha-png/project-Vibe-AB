@@ -1,39 +1,36 @@
 // js/components/situation.js
-// Блок узнавания ситуации (блок 2)
+// Блок узнавания ситуации — обновлён под контекст видео
 
-/**
- * @returns {string} HTML блока узнавания
- */
 export function renderSituation() {
   return `
     <section id="situation" class="section">
       <div class="situation-card card">
         <div class="situation-quote">
-          «Ключи получены. Стены выглядят ровными.
-          Стяжка есть. Электрика разведена.
-          Кажется, уже можно начинать чистовую...»
+          «Это видео будет полезно не только тем,
+          у кого квартира White Box — а даже тем,
+          у кого черновая квартира...»
         </div>
 
-        <div class="situation-divider divider"></div>
+        <div class="divider"></div>
 
         <p class="situation-text">
-          Но&nbsp;«вроде нормально» — не&nbsp;всегда значит
-          «можно продолжать». White&nbsp;Box — это основа,
-          которую сначала нужно понять.
+          Мы разберём основные моменты, которые можно улучшить
+          за небольшие деньги — без кардинальных переделок.
+          Всё по делу, без воды.
         </p>
 
         <div class="situation-items">
           <div class="situation-item">
-            <i data-lucide="map-pin" class="situation-icon"></i>
-            <span>Вы видите стены, стяжку и трубы</span>
+            <i data-lucide="check-circle" class="situation-icon"></i>
+            <span>Подходит для White Box и черновой квартиры</span>
           </div>
           <div class="situation-item">
-            <i data-lucide="help-circle" class="situation-icon situation-icon--warn"></i>
-            <span>Но не понимаете, что из этого нормально</span>
+            <i data-lucide="check-circle" class="situation-icon"></i>
+            <span>Только реальные, практичные улучшения</span>
           </div>
           <div class="situation-item">
-            <i data-lucide="clock" class="situation-icon situation-icon--warn"></i>
-            <span>И не знаете, что проверить до чистовой</span>
+            <i data-lucide="check-circle" class="situation-icon"></i>
+            <span>Без «сносить всё» и лишних трат</span>
           </div>
         </div>
       </div>

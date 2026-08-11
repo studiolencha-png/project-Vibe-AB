@@ -1,18 +1,20 @@
 // js/app.js
-// Главная точка входа — лендинг White Box (AB Studio)
+// Главная точка входа — лендинг White Box Premium Dark (AB Studio)
 
-import { initIcons }      from './utils.js';
-import { renderHero }     from './components/hero.js';
-import { renderSituation } from './components/situation.js';
-import { renderConflict }  from './components/conflict.js';
-import { renderRisks }     from './components/risks.js';
-import { renderResults }   from './components/results.js';
-import { renderHowItWorks } from './components/how-it-works.js';
-import { renderExpert }    from './components/expert.js';
-import { renderForWhom }   from './components/for-whom.js';
-import { renderPricing }   from './components/pricing.js';
-import { renderFaq }       from './components/faq.js';
-import { renderFinalCta }  from './components/final-cta.js';
+import { initIcons }         from './utils.js';
+import { renderHero }        from './components/hero.js';
+import { renderVideoPreview} from './components/video-preview.js';
+import { renderSituation }   from './components/situation.js';
+import { renderConflict }    from './components/conflict.js';
+import { renderZones }       from './components/zones.js';
+import { renderResults }     from './components/results.js';
+import { renderHowItWorks }  from './components/how-it-works.js';
+import { renderExpert }      from './components/expert.js';
+import { renderForWhom }     from './components/for-whom.js';
+import { renderPricing }     from './components/pricing.js';
+import { renderFaq }         from './components/faq.js';
+import { renderFinalCta }    from './components/final-cta.js';
+import { renderFooter }      from './components/footer.js';
 
 /** Переключение аккордеона FAQ */
 window.toggleFaq = function toggleFaq(index) {
@@ -34,9 +36,10 @@ function initApp() {
   appEl.innerHTML = `
     <div class="landing-wrap fade-in">
       ${renderHero()}
+      ${renderVideoPreview()}
       ${renderSituation()}
       ${renderConflict()}
-      ${renderRisks()}
+      ${renderZones()}
       ${renderResults()}
       ${renderHowItWorks()}
       ${renderExpert()}
@@ -44,6 +47,7 @@ function initApp() {
       ${renderPricing()}
       ${renderFaq()}
       ${renderFinalCta()}
+      ${renderFooter()}
     </div>
   `;
 
