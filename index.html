@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>My Vibe App</title>
+  <title>White Box — разбор до чистовой | AB Studio</title>
+  <meta name="description" content="Разберитесь, что проверить в White Box до начала чистовой, что можно оставить и что действительно переделать. Без подхода «сносить всё». AB Studio." />
 
   <!--
-    🔒 Content Security Policy — разрешаем скрипты только с известных CDN.
+    🔒 Content Security Policy
     При добавлении нового CDN — добавь его домен в script-src.
-    При подключении Notibot Bridge добавь: notibot.ru
   -->
   <meta http-equiv="Content-Security-Policy"
         content="
@@ -29,7 +29,7 @@
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -40,11 +40,8 @@
   <!-- Стили проекта -->
   <link rel="stylesheet" href="./css/styles.css" />
 
-  <!--
-    💡 Notibot Bridge подключается здесь если нужна интеграция с Notibot.
-    Используй скилл "Notibot Bridge" — агент добавит строку ниже:
-    <script src="./js/notibot-bridge.js"></script>
-  -->
+  <!-- Notibot Bridge — СИНХРОННО, локальный файл, без defer/async -->
+  <script src="./js/notibot-bridge.js"></script>
 </head>
 <body>
 
