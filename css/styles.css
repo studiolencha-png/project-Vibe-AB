@@ -236,54 +236,46 @@ body {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   VIDEO PREVIEW
+   IMAGE PLACEHOLDER (бывш. video-preview)
    ════════════════════════════════════════════════════════════════ */
 .video-section { padding: 0 16px 32px; }
 
-.video-wrap {
+.image-placeholder-wrap {
   position:      relative;
   border-radius: var(--radius);
   overflow:      hidden;
-  border:        1px solid var(--border-2);
-  box-shadow:    var(--shadow-gold);
-  aspect-ratio:  16/9;
+  border:        1px dashed var(--border-2);
   background:    var(--bg-3);
+  min-height:    200px;
+  aspect-ratio:  16/9;
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
 }
-.video-thumb {
-  width:   100%;
-  height:  100%;
+
+.placeholder-img {
+  position:   absolute;
+  inset:      0;
+  width:      100%;
+  height:     100%;
   object-fit: cover;
-  display: block;
-  filter:  brightness(.7);
+  display:    block;
+  border-radius: var(--radius);
 }
-.video-play-btn {
-  position:        absolute;
-  inset:           0;
+
+.placeholder-label {
   display:         flex;
   flex-direction:  column;
   align-items:     center;
   justify-content: center;
-  gap:             10px;
-  cursor:          pointer;
-  text-decoration: none;
-}
-.video-play-circle {
-  width:         64px; height: 64px;
-  border-radius: 50%;
-  background:    var(--accent);
-  display:       flex;
-  align-items:   center;
-  justify-content: center;
-  box-shadow:    0 0 0 8px rgba(201,169,110,.2), var(--shadow-gold);
-  transition:    transform .2s, box-shadow .2s;
-}
-.video-play-circle:hover { transform: scale(1.08); box-shadow: 0 0 0 12px rgba(201,169,110,.25); }
-.video-play-circle svg { fill: #0f0f0f; margin-left: 4px; }
-.video-play-label {
-  font-size:   13px;
-  font-weight: 600;
-  color:       #fff;
-  letter-spacing: .03em;
+  gap:             4px;
+  text-align:      center;
+  padding:         24px;
+  font-size:       13px;
+  color:           var(--muted);
+  line-height:     1.5;
+  pointer-events:  none;
+  user-select:     none;
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -489,9 +481,15 @@ body {
   border-radius: 8px;
   padding:       6px 12px;
   text-decoration: none;
-  transition:    border-color .15s, color .15s;
+  transition:    border-color .15s, color .15s, background .15s;
 }
 .expert-media-btn:hover { border-color: var(--accent); color: var(--accent); }
+.expert-media-btn--yt   { color: #ff4444; border-color: rgba(255,68,68,.3); }
+.expert-media-btn--yt:hover { background: rgba(255,68,68,.08); border-color: #ff4444; color: #ff4444; }
+
+/* Убираем underline у strong внутри списков и stat */
+.expert-stat strong { text-decoration: none; color: var(--accent); font-weight: 700; }
+.hero-sub strong    { text-decoration: none; }
 
 /* ════════════════════════════════════════════════════════════════
    FOR WHOM

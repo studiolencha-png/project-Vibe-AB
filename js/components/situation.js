@@ -1,5 +1,5 @@
 // js/components/situation.js
-// Блок узнавания ситуации — обновлён под контекст видео
+// Блок узнавания ситуации — исправлена терминология
 
 export function renderSituation() {
   return `
@@ -8,7 +8,7 @@ export function renderSituation() {
         <div class="situation-quote">
           «Это видео будет полезно не только тем,
           у кого квартира White Box — а даже тем,
-          у кого черновая квартира...»
+          у кого квартира с черновой отделкой...»
         </div>
 
         <div class="divider"></div>
@@ -22,7 +22,7 @@ export function renderSituation() {
         <div class="situation-items">
           <div class="situation-item">
             <i data-lucide="check-circle" class="situation-icon"></i>
-            <span>Подходит для White Box и черновой квартиры</span>
+            <span>Подходит для White Box и квартиры с черновой отделкой</span>
           </div>
           <div class="situation-item">
             <i data-lucide="check-circle" class="situation-icon"></i>

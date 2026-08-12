@@ -20,10 +20,10 @@ export function renderHero() {
         </h1>
 
         <p class="hero-sub">
-          Подходит не только для White Box —
-          <strong>актуально и для черновой квартиры.</strong>
-          Разбираем основные зоны, которые легко улучшить
-          без кардинальных затрат.
+          Подходит не только для White Box — актуально
+          и для квартиры с черновой отделкой. Разбираем
+          основные зоны, которые легко улучшить без
+          кардинальных затрат.
         </p>
 
         <div class="hero-topics">
@@ -33,6 +33,7 @@ export function renderHero() {
           <span class="hero-topic">Полы</span>
           <span class="hero-topic">Электрика</span>
           <span class="hero-topic">Коммуникации</span>
+          <span class="hero-topic">Водоснабжение</span>
         </div>
 
         <button
