@@ -216,6 +216,15 @@ var FAQ=[
   {q:'Это выезд на объект или технадзор?',a:'Нет. Это цифровой разбор — доступ сразу после оплаты. Если нужен полный контроль с выездом, это отдельная услуга.'}
 ];
 
+var PRODUCT_ID = '6H9ooNAW13YuZyGAcn8aBw';
+function goToProduct() {
+  if (window.notibot && typeof window.notibot.openProduct === 'function') {
+    window.notibot.openProduct(PRODUCT_ID);
+  } else {
+    window.location.href = '/product/' + PRODUCT_ID;
+  }
+}
+
 var html =
 '<div class="landing-wrap fade-in">' +
 // HERO
@@ -224,7 +233,7 @@ var html =
 '<h1 class="hero-title">Как сделать ремонт<br>в White Box <em>намного лучше</em><br>за небольшие деньги</h1>' +
 '<p class="hero-sub">Подходит не только для White Box — актуально и для квартиры с черновой отделкой. Разбираем основные зоны, которые легко улучшить без кардинальных затрат.</p>' +
 '<div class="hero-topics">'+['Стены','Окна','Отопление','Полы','Электрика','Коммуникации','Водоснабжение'].map(function(t){return'<span class="hero-topic">'+t+'</span>'}).join('')+'</div>'+
-'<button id="hero-cta-btn" class="btn-primary btn-press hero-cta-btn" onclick="document.getElementById(\'pricing\').scrollIntoView({behavior:\'smooth\'})">Получить разбор — 1&nbsp;990&nbsp;₽</button>' +
+'<button id="hero-cta-btn" class="btn-primary btn-press hero-cta-btn" onclick="goToProduct()">Получить разбор — 1&nbsp;990&nbsp;₽</button>' +
 '<p class="hero-cta-hint">Доступ сразу после оплаты · Только практическое</p>' +
 '</div></section>' +
 // IMAGE BLOCK — картинка с GitHub Pages
@@ -275,7 +284,7 @@ var html =
 '<div class="pricing-card card"><div class="pricing-badge">Цифровой разбор</div><div class="pricing-name">Разбор White Box</div><div class="pricing-tagline">6 ключевых зон · Что улучшить за небольшие деньги</div><div class="divider"></div>' +
 '<div class="pricing-includes">'+['Разбор 6 зон: стены, окна, отопление, полы, электрика, коммуникации','Что проверить, оставить и где улучшить','Где экономить разумно, а где нельзя','Подходит для White Box и квартиры с черновой отделкой','Доступ сразу после оплаты'].map(function(t){return'<div class="pricing-include-item">'+ic('check','pricing-check-icon')+'<span>'+t+'</span></div>'}).join('')+'</div>' +
 '<div class="divider"></div><div class="pricing-price-row"><div class="pricing-price">1 990 <span class="pricing-currency">₽</span></div><div class="pricing-price-note">разовый платёж</div></div>' +
-'<button id="pricing-cta-btn" class="btn-primary btn-press pricing-btn">Получить разбор</button>' +
+'<button id="pricing-cta-btn" class="btn-primary btn-press pricing-btn" onclick="goToProduct()">Получить разбор</button>' +
 '<p class="pricing-guarantee">Без подхода «сносить всё» · Только практически полезное</p></div>' +
 '<div class="pricing-note">'+ic('info','w-4 h-4 shrink-0')+'<p>Разбор не заменяет выездной технадзор, если нужен полный контроль на объекте.</p></div></section>' +
 // FAQ
@@ -285,7 +294,7 @@ var html =
 '<section id="final-cta" class="final-cta-section"><div class="final-cta-bg"></div><div class="final-cta-overlay"></div><div class="final-cta-inner">' +
 '<h2 class="final-cta-title">Перед чистовой важно понять, <em>что у вас уже сделано</em></h2>' +
 '<p class="final-cta-text">Разберитесь, что в White Box оставить, что улучшить за небольшие деньги и что действительно переделать — до начала финишной отделки.</p>' +
-'<button id="final-cta-btn" class="btn-primary btn-press final-cta-btn" onclick="document.getElementById(\'pricing\').scrollIntoView({behavior:\'smooth\'})">Получить разбор — 1&nbsp;990&nbsp;₽</button>' +
+'<button id="final-cta-btn" class="btn-primary btn-press final-cta-btn" onclick="goToProduct()">Получить разбор — 1&nbsp;990&nbsp;₽</button>' +
 '<p class="final-cta-hint">Доступ сразу · Без подхода «сносить всё»</p>' +
 '</div></section>' +
 // FOOTER
