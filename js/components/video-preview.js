@@ -1,31 +1,22 @@
 // js/components/video-preview.js
-// Пустой блок-плейсхолдер для изображения.
-// Замените URL картинки самостоятельно в редакторе Notibot:
-//   1. Откройте редактор контента Notibot
-//   2. Найдите элемент с id="video-image"
-//   3. Вставьте URL вашего изображения в поле src
+// Блок с изображением — выводит assets/images/video-preview.jpg
 
 export function renderVideoPreview() {
   return `
     <div class="video-section">
       <div class="image-placeholder-wrap" id="video-block">
-        <!--
-          📸 БЛОК ДЛЯ ИЗОБРАЖЕНИЯ
-          Замените src ниже на ссылку вашей картинки в редакторе Notibot.
-          Если src пустой — отображается рамка-заглушка.
-        -->
         <img
           id="video-image"
           class="placeholder-img"
-          src=""
-          alt="Изображение разбора White Box"
+          src="./assets/images/video-preview.jpg"
+          alt="Разбор White Box — AB Studio"
           loading="lazy"
-          onerror="this.style.display='none';document.getElementById('placeholder-label').style.display='flex'"
+          onerror="this.onerror=null; this.style.display='none'; document.getElementById('placeholder-label').style.display='flex'"
         />
         <div
           id="placeholder-label"
           class="placeholder-label"
-          style="display:flex"
+          style="display:none"
           aria-hidden="true"
         >
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:#717171;margin-bottom:8px">
@@ -34,7 +25,6 @@ export function renderVideoPreview() {
             <polyline points="21 15 16 10 5 21"/>
           </svg>
           <span>Добавьте изображение в редакторе Notibot</span>
-          <span style="font-size:11px;opacity:.5;margin-top:4px">id="video-image" → src="ваша ссылка"</span>
         </div>
       </div>
     </div>

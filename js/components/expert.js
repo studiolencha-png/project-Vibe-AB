@@ -57,7 +57,7 @@ export function renderExpert() {
           </div>
 
           <div class="expert-media">
-            <a class="expert-media-btn" href="https://t.me/abstudio" target="_blank" rel="noopener" aria-label="Telegram">
+            <a class="expert-media-btn expert-media-btn--tg" href="https://t.me/abstudio" target="_blank" rel="noopener" aria-label="Telegram">
               <!-- Telegram SVG -->
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="22" y1="2" x2="11" y2="13"></line>

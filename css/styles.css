@@ -492,6 +492,8 @@ body {
   transition:    border-color .15s, color .15s, background .15s;
 }
 .expert-media-btn:hover { border-color: var(--accent); color: var(--accent); }
+.expert-media-btn--tg   { color: #2aabee; border-color: rgba(42,171,238,.3); }
+.expert-media-btn--tg:hover { background: rgba(42,171,238,.1); border-color: #2aabee; color: #2aabee; }
 .expert-media-btn--yt   { color: #ff4444; border-color: rgba(255,68,68,.3); }
 .expert-media-btn--yt:hover { background: rgba(255,68,68,.08); border-color: #ff4444; color: #ff4444; }
 
