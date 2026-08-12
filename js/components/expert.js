@@ -17,10 +17,15 @@ export function renderExpert() {
           <img
             id="expert-photo"
             class="expert-photo"
-            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80"
+            src="./assets/images/expert.jpg"
             alt="Алексей Белянин — руководитель AB Studio"
             loading="lazy"
+            onerror="this.onerror=null; this.src=''; this.style.display='none'; document.getElementById('expert-fallback').style.display='flex';"
           />
+          <!-- Заглушка, пока не добавлено фото -->
+          <div id="expert-fallback" class="expert-fallback" style="display:none">
+            <i data-lucide="user" class="w-10 h-10" style="color:var(--accent);opacity:.4"></i>
+          </div>
           <div class="expert-photo-overlay"></div>
         </div>
 
