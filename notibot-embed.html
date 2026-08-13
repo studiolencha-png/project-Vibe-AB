@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -9,304 +10,1215 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <!-- Notibot Bridge SDK v2.26 — встроен inline для совместимости -->
   <script>
-(function(){class NotibotBridgeError extends Error{constructor(e){if(typeof e==='string'){super(e);this.code='ERR_UNKNOWN';this.origin='unknown';this.details=null}else{super(e.message||'Failed to submit form');this.code=e.code||'ERR_UNKNOWN';this.origin=e.origin||'unknown';this.details=e.details||null}this.name='NotibotBridgeError'}}window.NotibotBridgeError=NotibotBridgeError;class NotibotBridge{constructor(){this.user={};this.app={};this._updateHandlers=[];this._lastActionTimes={};this._responseHandlers={};this._init()}_init(){window.addEventListener('message',(event)=>{if(event.data?.type==='NOTIBOT_INIT'&&event.data.data){this.user=event.data.data.user||{};this.app=event.data.data.app||{};this._updateHandlers.forEach(cb=>{try{cb(this.user,this.app)}catch(e){console.error(e)}})}else if(event.data?.source==='vibe-parent'&&event.data?.requestId){const{requestId,success,data,error}=event.data;const handler=this._responseHandlers[requestId];if(handler){try{handler({success,data,error})}catch(e){console.error(e)}delete this._responseHandlers[requestId]}}});this._sendAction('READY_FOR_INIT');if(typeof ResizeObserver!=='undefined'){const ro=new ResizeObserver(entries=>{for(let entry of entries){const h=Math.ceil(entry.contentRect.height);if(h>0)this._sendAction('set_height',{height:h+60})}});if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',()=>ro.observe(document.body))}else{ro.observe(document.body)}}}openPortal(config={}){this._sendAction('open_portal',config)}setScrollLock(locked){this._sendAction('set_scroll_lock',{locked})}onUpdate(callback){if(typeof callback==='function'){this._updateHandlers.push(callback);if(this.user?.id)callback(this.user,this.app)}}openLink(url){this._sendAction('open_link',{url})}openStorefront(){this.openLink('/vitrina')}openArticle(id){this.openLink('/page/'+id)}openProduct(id){this.openLink('/product/'+id)}openUserCard(){this.openLink('/usercard')}hapticImpact(style='light',fallback=false){this._sendAction('haptic_feedback',{feedbackType:'impact',style,fallback})}hapticNotification(type='success',fallback=false){this._sendAction('haptic_feedback',{feedbackType:'notification',style:type,fallback})}hapticSelection(fallback=false){this._sendAction('haptic_feedback',{feedbackType:'selection',fallback})}submitForm(formId,answers){return new Promise((resolve,reject)=>{if(!formId){reject(new NotibotBridgeError({origin:'client',code:'ERR_INVALID_PAYLOAD',message:'Form ID is required'}));return}const requestId=Math.random().toString(36).substring(2,9);this._responseHandlers[requestId]=(response)=>{if(response.success){resolve(response.data)}else{reject(new NotibotBridgeError(response.error))}};if(window.parent){window.parent.postMessage({source:'vibe-sandbox',type:'submit_form',payload:{formId,answers,requestId}},'*')}else{delete this._responseHandlers[requestId];reject(new NotibotBridgeError({origin:'client',code:'ERR_NO_PARENT',message:'Parent window not found'}))}})}_sendAction(type,payload={}){const now=Date.now();if(this._lastActionTimes[type]&&(now-this._lastActionTimes[type]<(type==='haptic_feedback'?50:400)))return;this._lastActionTimes[type]=now;if(window.parent){window.parent.postMessage({source:'vibe-sandbox',type,payload},'*')}}}window.notibot=new NotibotBridge()})();
+    (function () { class NotibotBridgeError extends Error { constructor(e) { if (typeof e === 'string') { super(e); this.code = 'ERR_UNKNOWN'; this.origin = 'unknown'; this.details = null } else { super(e.message || 'Failed to submit form'); this.code = e.code || 'ERR_UNKNOWN'; this.origin = e.origin || 'unknown'; this.details = e.details || null } this.name = 'NotibotBridgeError' } } window.NotibotBridgeError = NotibotBridgeError; class NotibotBridge { constructor() { this.user = {}; this.app = {}; this._updateHandlers = []; this._lastActionTimes = {}; this._responseHandlers = {}; this._init() } _init() { window.addEventListener('message', (event) => { if (event.data?.type === 'NOTIBOT_INIT' && event.data.data) { this.user = event.data.data.user || {}; this.app = event.data.data.app || {}; this._updateHandlers.forEach(cb => { try { cb(this.user, this.app) } catch (e) { console.error(e) } }) } else if (event.data?.source === 'vibe-parent' && event.data?.requestId) { const { requestId, success, data, error } = event.data; const handler = this._responseHandlers[requestId]; if (handler) { try { handler({ success, data, error }) } catch (e) { console.error(e) } delete this._responseHandlers[requestId] } } }); this._sendAction('READY_FOR_INIT'); if (typeof ResizeObserver !== 'undefined') { const ro = new ResizeObserver(entries => { for (let entry of entries) { const h = Math.ceil(entry.contentRect.height); if (h > 0) this._sendAction('set_height', { height: h + 60 }) } }); if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', () => ro.observe(document.body)) } else { ro.observe(document.body) } } } openPortal(config = {}) { this._sendAction('open_portal', config) } setScrollLock(locked) { this._sendAction('set_scroll_lock', { locked }) } onUpdate(callback) { if (typeof callback === 'function') { this._updateHandlers.push(callback); if (this.user?.id) callback(this.user, this.app) } } openLink(url) { this._sendAction('open_link', { url }) } openStorefront() { this.openLink('/vitrina') } openArticle(id) { this.openLink('/page/' + id) } openProduct(id) { this.openLink('/product/' + id) } openUserCard() { this.openLink('/usercard') } hapticImpact(style = 'light', fallback = false) { this._sendAction('haptic_feedback', { feedbackType: 'impact', style, fallback }) } hapticNotification(type = 'success', fallback = false) { this._sendAction('haptic_feedback', { feedbackType: 'notification', style: type, fallback }) } hapticSelection(fallback = false) { this._sendAction('haptic_feedback', { feedbackType: 'selection', fallback }) } submitForm(formId, answers) { return new Promise((resolve, reject) => { if (!formId) { reject(new NotibotBridgeError({ origin: 'client', code: 'ERR_INVALID_PAYLOAD', message: 'Form ID is required' })); return } const requestId = Math.random().toString(36).substring(2, 9); this._responseHandlers[requestId] = (response) => { if (response.success) { resolve(response.data) } else { reject(new NotibotBridgeError(response.error)) } }; if (window.parent) { window.parent.postMessage({ source: 'vibe-sandbox', type: 'submit_form', payload: { formId, answers, requestId } }, '*') } else { delete this._responseHandlers[requestId]; reject(new NotibotBridgeError({ origin: 'client', code: 'ERR_NO_PARENT', message: 'Parent window not found' })) } }) } _sendAction(type, payload = {}) { const now = Date.now(); if (this._lastActionTimes[type] && (now - this._lastActionTimes[type] < (type === 'haptic_feedback' ? 50 : 400))) return; this._lastActionTimes[type] = now; if (window.parent) { window.parent.postMessage({ source: 'vibe-sandbox', type, payload }, '*') } } } window.notibot = new NotibotBridge() })();
   </script>
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
   <style>
-:root{--bg:#0f0f0f;--bg-2:#161616;--bg-3:#1e1e1e;--surface:#242424;--border:rgba(255,255,255,0.08);--border-2:rgba(255,255,255,0.14);--text:#f0f0f0;--text-2:#c0c0c0;--muted:#717171;--accent:#c9a96e;--accent-2:#b8963d;--good:#4ade80;--warn:#fb923c;--radius:18px;--radius-sm:12px;--shadow:0 2px 24px rgba(0,0,0,0.5);--shadow-gold:0 0 32px rgba(201,169,110,0.15)}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.6;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
-@keyframes goldShine{0%{background-position:-200% center}100%{background-position:200% center}}
-.fade-in{animation:fadeIn .45s ease forwards}
-.card{background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
-.divider{height:1px;background:var(--border);margin:16px 0}
-.btn-primary{display:block;width:100%;padding:16px 24px;background:var(--accent);color:#0f0f0f;font-size:15px;font-weight:700;border:none;border-radius:var(--radius-sm);cursor:pointer;text-align:center;letter-spacing:.01em;transition:transform .12s,opacity .12s,background .15s,box-shadow .2s}
-.btn-primary:hover{background:var(--accent-2);box-shadow:var(--shadow-gold)}
-.btn-primary:active{transform:scale(.97);opacity:.92}
-.btn-press{transition:transform .1s ease,opacity .1s ease;cursor:pointer}
-.btn-press:active{transform:scale(.96);opacity:.8}
-.landing-wrap{max-width:480px;margin:0 auto}
-.section{padding:32px 16px}
-.section-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
-.section-title{font-size:22px;font-weight:800;color:var(--text);line-height:1.25;margin:0 0 6px}
-.section-subtitle{font-size:14px;color:var(--muted);line-height:1.6;margin:0 0 20px}
-/* HERO */
-.hero-section{position:relative;overflow:hidden;min-height:560px;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 32px}
-.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=80') center/cover no-repeat;filter:brightness(.28) saturate(.7);z-index:0}
-.hero-bg-overlay{position:absolute;inset:0;background:linear-gradient(to top,#0f0f0f 35%,rgba(15,15,15,.4) 100%);z-index:1}
-.hero-content{position:relative;z-index:2;padding:0 16px}
-.hero-badge{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(201,169,110,.3);background:rgba(201,169,110,.08);border-radius:99px;padding:5px 13px;margin-bottom:18px}
-.hero-badge-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s ease infinite}
-.hero-title{font-size:28px;font-weight:800;line-height:1.2;color:#fff;margin:0 0 10px}
-.hero-title em{font-style:normal;color:transparent;background:linear-gradient(90deg,var(--accent),#e8c98a,var(--accent));background-size:200% auto;-webkit-background-clip:text;background-clip:text;animation:goldShine 3.5s linear infinite}
-.hero-sub{font-size:14px;color:var(--text-2);line-height:1.65;margin:0 0 8px}
-.hero-topics{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 24px}
-.hero-topic{font-size:12px;font-weight:500;color:var(--accent);border:1px solid rgba(201,169,110,.25);background:rgba(201,169,110,.07);border-radius:8px;padding:4px 10px}
-.hero-cta-btn{font-size:16px;padding:17px 24px;letter-spacing:.02em}
-.hero-cta-hint{text-align:center;font-size:11px;color:var(--muted);margin-top:8px}
-/* IMAGE BLOCK */
-.video-section{padding:0 16px 32px}
-.image-placeholder-wrap{position:relative;border-radius:var(--radius);overflow:hidden;border:1px dashed var(--border-2);background:var(--bg-3);min-height:200px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center}
-.placeholder-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;border-radius:var(--radius)}
-.placeholder-label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;padding:24px;font-size:13px;color:var(--muted);line-height:1.5;pointer-events:none;user-select:none}
-/* SITUATION */
-.situation-card{padding:20px}
-.situation-quote{font-size:15px;font-style:italic;font-weight:500;color:var(--text-2);line-height:1.65;border-left:3px solid var(--accent);padding-left:14px;margin-bottom:14px}
-.situation-text{font-size:14px;color:var(--muted);line-height:1.6}
-.situation-items{display:flex;flex-direction:column;gap:10px;margin-top:14px}
-.situation-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text-2)}
-.situation-icon{width:16px;height:16px;flex-shrink:0;margin-top:2px;color:var(--good)}
-/* ZONES */
-.zones-grid{display:flex;flex-direction:column;gap:10px}
-.zone-card{padding:16px;display:flex;gap:14px;align-items:flex-start;transition:border-color .2s,box-shadow .2s}
-.zone-card:hover{border-color:rgba(201,169,110,.35);box-shadow:var(--shadow-gold)}
-.zone-icon-wrap{width:44px;height:44px;flex-shrink:0;border-radius:12px;background:rgba(201,169,110,.1);border:1px solid rgba(201,169,110,.2);display:flex;align-items:center;justify-content:center;color:var(--accent)}
-.zone-num{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--accent);margin-bottom:3px}
-.zone-title{font-size:15px;font-weight:700;color:var(--text);margin:0 0 5px}
-.zone-desc{font-size:13px;color:var(--muted);line-height:1.5}
-.zone-tip{display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:11px;font-weight:600;color:var(--accent);background:rgba(201,169,110,.08);border-radius:99px;padding:3px 9px}
-/* RESULTS */
-.results-card{display:flex;flex-direction:column;gap:0;padding:20px}
-.result-icon-wrap{width:32px;height:32px;background:rgba(201,169,110,.1);border:1px solid rgba(201,169,110,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--accent)}
-.result-item-title{font-size:14px;font-weight:600;color:var(--text);margin:0 0 2px}
-.result-item-desc{font-size:13px;color:var(--muted);margin:0;line-height:1.45}
-/* STEPS */
-.steps-list{display:flex;flex-direction:column;gap:0}
-.step-item{display:flex;gap:14px}
-.step-line-wrap{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
-.step-circle{width:38px;height:38px;flex-shrink:0;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#0f0f0f;box-shadow:0 0 0 5px rgba(201,169,110,.12)}
-.step-connector{width:2px;flex:1;min-height:20px;background:linear-gradient(to bottom,var(--accent),var(--border));margin:4px 0}
-.step-content{padding-bottom:22px}
-.step-num{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--accent);margin-bottom:2px}
-.step-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px}
-.step-desc{font-size:13px;color:var(--muted);line-height:1.45}
-/* EXPERT */
-.expert-card{padding:0;overflow:hidden}
-.expert-photo-wrap{width:100%;height:220px;overflow:hidden;position:relative}
-.expert-photo{width:100%;height:100%;object-fit:cover;object-position:top center;filter:brightness(.85) contrast(1.05);display:block}
-.expert-photo-overlay{position:absolute;inset:0;background:linear-gradient(to top,var(--bg-3) 0%,transparent 60%)}
-.expert-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg-3)}
-.expert-body{padding:16px 18px 18px}
-.expert-name{font-size:20px;font-weight:800;color:var(--text);margin-bottom:3px}
-.expert-role{font-size:12px;color:var(--accent);font-weight:600;letter-spacing:.04em;margin-bottom:12px}
-.expert-stats{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
-.expert-stat{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text-2);line-height:1.4}
-.expert-stat-bullet{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px}
-.expert-stat strong{text-decoration:none;color:var(--accent);font-weight:700}
-.expert-media{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-.expert-media-btn{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--muted);border:1px solid var(--border-2);background:var(--surface);border-radius:8px;padding:6px 12px;text-decoration:none;transition:border-color .15s,color .15s,background .15s}
-.expert-media-btn--tg{color:#2aabee;border-color:rgba(42,171,238,.3)}
-.expert-media-btn--tg:hover{background:rgba(42,171,238,.1);border-color:#2aabee}
-.expert-media-btn--yt{color:#ff4444;border-color:rgba(255,68,68,.3)}
-.expert-media-btn--yt:hover{background:rgba(255,68,68,.08);border-color:#ff4444}
-/* FOR WHOM */
-.whom-grid{display:flex;flex-direction:column;gap:10px}
-.whom-card{padding:16px}
-.whom-card--for{border-left:3px solid var(--accent)}
-.whom-card--not{border-left:3px solid var(--border-2)}
-.whom-card-label{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
-.whom-card-label--not{color:var(--muted)}
-.whom-list{list-style:none;display:flex;flex-direction:column;gap:8px}
-.whom-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text-2);line-height:1.4}
-.whom-icon{width:15px;height:15px;flex-shrink:0;margin-top:1px}
-.whom-icon--for{color:var(--accent)}
-.whom-icon--not{color:var(--muted)}
-/* PRICING */
-.pricing-card{padding:22px;border:1px solid rgba(201,169,110,.35);margin-bottom:12px;position:relative;overflow:hidden}
-.pricing-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
-.pricing-badge{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#0f0f0f;background:var(--accent);border-radius:99px;padding:4px 12px;margin-bottom:14px}
-.pricing-name{font-size:24px;font-weight:800;color:var(--text);margin-bottom:3px}
-.pricing-tagline{font-size:13px;color:var(--muted);line-height:1.4}
-.pricing-includes{display:flex;flex-direction:column;gap:9px}
-.pricing-include-item{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--text-2);line-height:1.4}
-.pricing-check-icon{width:15px;height:15px;color:var(--accent);flex-shrink:0;margin-top:1px}
-.pricing-price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:18px}
-.pricing-price{font-size:40px;font-weight:800;color:var(--accent)}
-.pricing-currency{font-size:24px}
-.pricing-price-note{font-size:12px;color:var(--muted)}
-.pricing-btn{font-size:16px;padding:17px 24px;letter-spacing:.02em}
-.pricing-guarantee{text-align:center;font-size:11px;color:var(--muted);margin:10px 0 0}
-.pricing-note{display:flex;gap:9px;align-items:flex-start;font-size:12px;color:var(--muted);line-height:1.55;padding:0 4px}
-.pricing-note p{margin:0}
-/* FAQ */
-.faq-list{display:flex;flex-direction:column;gap:8px}
-.faq-item{background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;transition:border-color .2s}
-.faq-item:has(.faq-chevron--open){border-color:rgba(201,169,110,.3)}
-.faq-question{width:100%;padding:14px 16px;background:none;border:none;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px;font-weight:500;color:var(--text);line-height:1.4;cursor:pointer}
-.faq-chevron{flex-shrink:0;color:var(--muted);transition:transform .25s ease}
-.faq-chevron--open{transform:rotate(180deg);color:var(--accent)}
-.faq-answer{padding:0 16px 14px;font-size:13px;color:var(--muted);line-height:1.6}
-.faq-answer p{margin:0}
-/* FINAL CTA */
-.final-cta-section{position:relative;overflow:hidden;padding:48px 20px 52px;text-align:center}
-.final-cta-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&q=70') center/cover no-repeat;filter:brightness(.15) saturate(.5)}
-.final-cta-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(201,169,110,.15),transparent)}
-.final-cta-inner{position:relative;z-index:1;max-width:420px;margin:0 auto}
-.final-cta-title{font-size:24px;font-weight:800;color:#fff;line-height:1.25;margin:0 0 14px}
-.final-cta-title em{font-style:normal;color:var(--accent)}
-.final-cta-text{font-size:14px;color:rgba(255,255,255,.7);line-height:1.65;margin:0 0 28px}
-.final-cta-btn{background:var(--accent);color:#0f0f0f;font-size:16px;padding:17px 24px;letter-spacing:.02em}
-.final-cta-hint{font-size:11px;color:rgba(255,255,255,.45);margin:10px 0 0}
-/* FOOTER */
-.footer-section{background:var(--bg);border-top:1px solid var(--border);padding:40px 20px 32px;text-align:center}
-.footer-name{font-size:18px;font-weight:700;color:var(--accent);margin-bottom:4px}
-.footer-role{font-size:13px;color:var(--muted);margin-bottom:16px}
-.footer-divider{width:40px;height:1px;background:var(--border-2);margin:0 auto 16px}
-.footer-quote{font-size:14px;font-style:italic;color:var(--text-2);line-height:1.65;margin:0 0 20px}
-.footer-copy{font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
-/* utils */
-.flex{display:flex}.items-start{align-items:flex-start}.gap-4{gap:16px}
-.flex-1{flex:1}.min-w-0{min-width:0}.shrink-0{flex-shrink:0}
-.w-3{width:12px}.h-3{height:12px}.w-4{width:16px}.h-4{height:16px}
-.w-5{width:20px}.h-5{height:20px}.w-10{width:40px}.h-10{height:40px}
+    :root {
+      --bg: #0f0f0f;
+      --bg-2: #161616;
+      --bg-3: #1e1e1e;
+      --surface: #242424;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-2: rgba(255, 255, 255, 0.14);
+      --text: #f0f0f0;
+      --text-2: #c0c0c0;
+      --muted: #717171;
+      --accent: #c9a96e;
+      --accent-2: #b8963d;
+      --good: #4ade80;
+      --warn: #fb923c;
+      --radius: 18px;
+      --radius-sm: 12px;
+      --shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
+      --shadow-gold: 0 0 32px rgba(201, 169, 110, 0.15)
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .45
+      }
+    }
+
+    @keyframes goldShine {
+      0% {
+        background-position: -200% center
+      }
+
+      100% {
+        background-position: 200% center
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn .45s ease forwards
+    }
+
+    .card {
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow)
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 16px 0
+    }
+
+    .btn-primary {
+      display: block;
+      width: 100%;
+      padding: 16px 24px;
+      background: var(--accent);
+      color: #0f0f0f;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-align: center;
+      letter-spacing: .01em;
+      transition: transform .12s, opacity .12s, background .15s, box-shadow .2s
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-2);
+      box-shadow: var(--shadow-gold)
+    }
+
+    .btn-primary:active {
+      transform: scale(.97);
+      opacity: .92
+    }
+
+    .btn-press {
+      transition: transform .1s ease, opacity .1s ease;
+      cursor: pointer
+    }
+
+    .btn-press:active {
+      transform: scale(.96);
+      opacity: .8
+    }
+
+    .landing-wrap {
+      max-width: 480px;
+      margin: 0 auto
+    }
+
+    .section {
+      padding: 32px 16px
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.25;
+      margin: 0 0 6px
+    }
+
+    .section-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0 0 20px
+    }
+
+    /* HERO */
+    .hero-section {
+      position: relative;
+      overflow: hidden;
+      min-height: 560px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 0 32px
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=80') center/cover no-repeat;
+      filter: brightness(.28) saturate(.7);
+      z-index: 0
+    }
+
+    .hero-bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, #0f0f0f 35%, rgba(15, 15, 15, .4) 100%);
+      z-index: 1
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 16px
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid rgba(201, 169, 110, .3);
+      background: rgba(201, 169, 110, .08);
+      border-radius: 99px;
+      padding: 5px 13px;
+      margin-bottom: 18px
+    }
+
+    .hero-badge-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s ease infinite
+    }
+
+    .hero-title {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.2;
+      color: #fff;
+      margin: 0 0 10px
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: transparent;
+      background: linear-gradient(90deg, var(--accent), #e8c98a, var(--accent));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: goldShine 3.5s linear infinite
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.65;
+      margin: 0 0 8px
+    }
+
+    .hero-topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 14px 0 24px
+    }
+
+    .hero-topic {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      border: 1px solid rgba(201, 169, 110, .25);
+      background: rgba(201, 169, 110, .07);
+      border-radius: 8px;
+      padding: 4px 10px
+    }
+
+    .hero-cta-btn {
+      font-size: 16px;
+      padding: 17px 24px;
+      letter-spacing: .02em
+    }
+
+    .hero-cta-hint {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 8px
+    }
+
+    /* IMAGE BLOCK */
+    .video-section {
+      padding: 0 16px 32px
+    }
+
+    .image-placeholder-wrap {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px dashed var(--border-2);
+      background: var(--bg-3);
+      min-height: 200px;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .placeholder-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: var(--radius)
+    }
+
+    .placeholder-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      text-align: center;
+      padding: 24px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+      pointer-events: none;
+      user-select: none
+    }
+
+    /* SITUATION */
+    .situation-card {
+      padding: 20px
+    }
+
+    .situation-quote {
+      font-size: 15px;
+      font-style: italic;
+      font-weight: 500;
+      color: var(--text-2);
+      line-height: 1.65;
+      border-left: 3px solid var(--accent);
+      padding-left: 14px;
+      margin-bottom: 14px
+    }
+
+    .situation-text {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6
+    }
+
+    .situation-items {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px
+    }
+
+    .situation-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-2)
+    }
+
+    .situation-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--good)
+    }
+
+    /* ZONES */
+    .zones-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
+
+    .zone-card {
+      padding: 16px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      transition: border-color .2s, box-shadow .2s
+    }
+
+    .zone-card:hover {
+      border-color: rgba(201, 169, 110, .35);
+      box-shadow: var(--shadow-gold)
+    }
+
+    .zone-icon-wrap {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      background: rgba(201, 169, 110, .1);
+      border: 1px solid rgba(201, 169, 110, .2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent)
+    }
+
+    .zone-num {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      color: var(--accent);
+      margin-bottom: 3px
+    }
+
+    .zone-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 5px
+    }
+
+    .zone-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5
+    }
+
+    .zone-tip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(201, 169, 110, .08);
+      border-radius: 99px;
+      padding: 3px 9px
+    }
+
+    /* RESULTS */
+    .results-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 20px
+    }
+
+    .result-icon-wrap {
+      width: 32px;
+      height: 32px;
+      background: rgba(201, 169, 110, .1);
+      border: 1px solid rgba(201, 169, 110, .2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent)
+    }
+
+    .result-item-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin: 0 0 2px
+    }
+
+    .result-item-desc {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.45
+    }
+
+    /* STEPS */
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0
+    }
+
+    .step-item {
+      display: flex;
+      gap: 14px
+    }
+
+    .step-line-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0
+    }
+
+    .step-circle {
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0f0f0f;
+      box-shadow: 0 0 0 5px rgba(201, 169, 110, .12)
+    }
+
+    .step-connector {
+      width: 2px;
+      flex: 1;
+      min-height: 20px;
+      background: linear-gradient(to bottom, var(--accent), var(--border));
+      margin: 4px 0
+    }
+
+    .step-content {
+      padding-bottom: 22px
+    }
+
+    .step-num {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      color: var(--accent);
+      margin-bottom: 2px
+    }
+
+    .step-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 3px
+    }
+
+    .step-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45
+    }
+
+    /* EXPERT */
+    .expert-card {
+      padding: 0;
+      overflow: hidden
+    }
+
+    .expert-photo-wrap {
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      position: relative
+    }
+
+    .expert-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      filter: brightness(.85) contrast(1.05);
+      display: block
+    }
+
+    .expert-photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, var(--bg-3) 0%, transparent 60%)
+    }
+
+    .expert-fallback {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-3)
+    }
+
+    .expert-body {
+      padding: 16px 18px 18px
+    }
+
+    .expert-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 3px
+    }
+
+    .expert-role {
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: .04em;
+      margin-bottom: 12px
+    }
+
+    .expert-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 14px
+    }
+
+    .expert-stat {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-2);
+      line-height: 1.4
+    }
+
+    .expert-stat-bullet {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      margin-top: 6px
+    }
+
+    .expert-stat strong {
+      text-decoration: none;
+      color: var(--accent);
+      font-weight: 700
+    }
+
+    .expert-media {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px
+    }
+
+    .expert-media-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      border: 1px solid var(--border-2);
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 6px 12px;
+      text-decoration: none;
+      transition: border-color .15s, color .15s, background .15s
+    }
+
+    .expert-media-btn--tg {
+      color: #2aabee;
+      border-color: rgba(42, 171, 238, .3)
+    }
+
+    .expert-media-btn--tg:hover {
+      background: rgba(42, 171, 238, .1);
+      border-color: #2aabee
+    }
+
+    .expert-media-btn--yt {
+      color: #ff4444;
+      border-color: rgba(255, 68, 68, .3)
+    }
+
+    .expert-media-btn--yt:hover {
+      background: rgba(255, 68, 68, .08);
+      border-color: #ff4444
+    }
+
+    /* FOR WHOM */
+    .whom-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
+
+    .whom-card {
+      padding: 16px
+    }
+
+    .whom-card--for {
+      border-left: 3px solid var(--accent)
+    }
+
+    .whom-card--not {
+      border-left: 3px solid var(--border-2)
+    }
+
+    .whom-card-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px
+    }
+
+    .whom-card-label--not {
+      color: var(--muted)
+    }
+
+    .whom-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .whom-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-2);
+      line-height: 1.4
+    }
+
+    .whom-icon {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+      margin-top: 1px
+    }
+
+    .whom-icon--for {
+      color: var(--accent)
+    }
+
+    .whom-icon--not {
+      color: var(--muted)
+    }
+
+    /* PRICING */
+    .pricing-card {
+      padding: 22px;
+      border: 1px solid rgba(201, 169, 110, .35);
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .pricing-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent)
+    }
+
+    .pricing-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: #0f0f0f;
+      background: var(--accent);
+      border-radius: 99px;
+      padding: 4px 12px;
+      margin-bottom: 14px
+    }
+
+    .pricing-name {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 3px
+    }
+
+    .pricing-tagline {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.4
+    }
+
+    .pricing-includes {
+      display: flex;
+      flex-direction: column;
+      gap: 9px
+    }
+
+    .pricing-include-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 13px;
+      color: var(--text-2);
+      line-height: 1.4
+    }
+
+    .pricing-check-icon {
+      width: 15px;
+      height: 15px;
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 1px
+    }
+
+    .pricing-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 18px
+    }
+
+    .pricing-price {
+      font-size: 40px;
+      font-weight: 800;
+      color: var(--accent)
+    }
+
+    .pricing-currency {
+      font-size: 24px
+    }
+
+    .pricing-price-note {
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    .pricing-btn {
+      font-size: 16px;
+      padding: 17px 24px;
+      letter-spacing: .02em
+    }
+
+    .pricing-guarantee {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      margin: 10px 0 0
+    }
+
+    .pricing-note {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.55;
+      padding: 0 4px
+    }
+
+    .pricing-note p {
+      margin: 0
+    }
+
+    /* FAQ */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .faq-item {
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      transition: border-color .2s
+    }
+
+    .faq-item:has(.faq-chevron--open) {
+      border-color: rgba(201, 169, 110, .3)
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 14px 16px;
+      background: none;
+      border: none;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.4;
+      cursor: pointer
+    }
+
+    .faq-chevron {
+      flex-shrink: 0;
+      color: var(--muted);
+      transition: transform .25s ease
+    }
+
+    .faq-chevron--open {
+      transform: rotate(180deg);
+      color: var(--accent)
+    }
+
+    .faq-answer {
+      padding: 0 16px 14px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6
+    }
+
+    .faq-answer p {
+      margin: 0
+    }
+
+    /* FINAL CTA */
+    .final-cta-section {
+      position: relative;
+      overflow: hidden;
+      padding: 48px 20px 52px;
+      text-align: center
+    }
+
+    .final-cta-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&q=70') center/cover no-repeat;
+      filter: brightness(.15) saturate(.5)
+    }
+
+    .final-cta-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(201, 169, 110, .15), transparent)
+    }
+
+    .final-cta-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 420px;
+      margin: 0 auto
+    }
+
+    .final-cta-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.25;
+      margin: 0 0 14px
+    }
+
+    .final-cta-title em {
+      font-style: normal;
+      color: var(--accent)
+    }
+
+    .final-cta-text {
+      font-size: 14px;
+      color: rgba(255, 255, 255, .7);
+      line-height: 1.65;
+      margin: 0 0 28px
+    }
+
+    .final-cta-btn {
+      background: var(--accent);
+      color: #0f0f0f;
+      font-size: 16px;
+      padding: 17px 24px;
+      letter-spacing: .02em
+    }
+
+    .final-cta-hint {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .45);
+      margin: 10px 0 0
+    }
+
+    /* FOOTER */
+    .footer-section {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 40px 20px 32px;
+      text-align: center
+    }
+
+    .footer-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 4px
+    }
+
+    .footer-role {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 16px
+    }
+
+    .footer-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--border-2);
+      margin: 0 auto 16px
+    }
+
+    .footer-quote {
+      font-size: 14px;
+      font-style: italic;
+      color: var(--text-2);
+      line-height: 1.65;
+      margin: 0 0 20px
+    }
+
+    .footer-copy {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: .06em;
+      text-transform: uppercase
+    }
+
+    /* utils */
+    .flex {
+      display: flex
+    }
+
+    .items-start {
+      align-items: flex-start
+    }
+
+    .gap-4 {
+      gap: 16px
+    }
+
+    .flex-1 {
+      flex: 1
+    }
+
+    .min-w-0 {
+      min-width: 0
+    }
+
+    .shrink-0 {
+      flex-shrink: 0
+    }
+
+    .w-3 {
+      width: 12px
+    }
+
+    .h-3 {
+      height: 12px
+    }
+
+    .w-4 {
+      width: 16px
+    }
+
+    .h-4 {
+      height: 16px
+    }
+
+    .w-5 {
+      width: 20px
+    }
+
+    .h-5 {
+      height: 20px
+    }
+
+    .w-10 {
+      width: 40px
+    }
+
+    .h-10 {
+      height: 40px
+    }
   </style>
 </head>
+
 <body>
-<div id="app"></div>
-<script>
-// ═══════════════════════════════════════════════
-// WHITE BOX · AB STUDIO · notibot-embed.html
-// Все изображения — абсолютные URL (GitHub Pages)
-// ═══════════════════════════════════════════════
+  <div id="app"></div>
+  <script>
+    // ═══════════════════════════════════════════════
+    // WHITE BOX · AB STUDIO · notibot-embed.html
+    // Все изображения — абсолютные URL (GitHub Pages)
+    // ═══════════════════════════════════════════════
 
-// Базовый URL для картинок (GitHub Pages)
-var IMG = 'https://studiolencha-png.github.io/project-Vibe-AB/assets/images/';
+    // Базовый URL для картинок (GitHub Pages)
+    var IMG = 'https://studiolencha-png.github.io/project-Vibe-AB/assets/images/';
 
-var SVG_TG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
-var SVG_YT = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>';
+    var SVG_TG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+    var SVG_YT = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>';
 
-function toggleFaq(i) {
-  var a=document.getElementById('faq-answer-'+i), c=document.getElementById('faq-chevron-'+i);
-  if(!a)return; var o=!a.hidden; a.hidden=o;
-  if(a.previousElementSibling)a.previousElementSibling.setAttribute('aria-expanded',String(!o));
-  if(c)c.classList.toggle('faq-chevron--open',!o);
-}
-function ic(n,c){return '<i data-lucide="'+n+'" class="'+(c||'')+'"></i>'}
+    function toggleFaq(i) {
+      var a = document.getElementById('faq-answer-' + i), c = document.getElementById('faq-chevron-' + i);
+      if (!a) return; var o = !a.hidden; a.hidden = o;
+      if (a.previousElementSibling) a.previousElementSibling.setAttribute('aria-expanded', String(!o));
+      if (c) c.classList.toggle('faq-chevron--open', !o);
+    }
+    function ic(n, c) { return '<i data-lucide="' + n + '" class="' + (c || '') + '"></i>' }
 
-var ZONES=[
-  {icon:'layout-panel-left',num:'01',title:'Стены',desc:'Что действительно влияет на качество всей последующей отделки. Как понять, где нужно вмешаться до начала чистовой.',tip:'Экономия на стенах обходится дороже всего'},
-  {icon:'wind',num:'02',title:'Окна',desc:'Что такое правильная установка и нужно ли менять окна от застройщика. Как избежать холода, сквозняков и конденсата.',tip:'Часто менять не нужно — нужно правильно настроить'},
-  {icon:'thermometer',num:'03',title:'Отопление',desc:'Возможен ли в квартире комфорт как в коттедже. Что проверить и что можно улучшить без полной замены системы.',tip:'Небольшие вложения — заметная разница'},
-  {icon:'square-stack',num:'04',title:'Полы',desc:'Как исправить полусухую стяжку от застройщика и что выбрать: ламинат, кварцвинил или другое покрытие без порожков.',tip:'Ровный пол — основа всего последующего ремонта'},
-  {icon:'zap',num:'05',title:'Электрика',desc:'Как сэкономить без угрозы для жизни. Что можно оставить, что стоит проверить и где нельзя экономить никогда.',tip:'Грамотная электрика — это безопасность'},
-  {icon:'droplets',num:'06',title:'Коммуникации · Водоснабжение',desc:'Как не затопить соседей и не слить весь бюджет. Что проверить в трубах и стояках до начала финишной отделки.',tip:'Проверьте до чистовой — после будет дороже'}
-];
-var RESULTS=[
-  {icon:'check-square',title:'Поймёте, что улучшить в первую очередь',desc:'Конкретные зоны и узлы — по каждой теме из разбора'},
-  {icon:'thumbs-up',title:'Узнаете, что можно оставить от застройщика',desc:'Без лишних переделок и трат на ненужные работы'},
-  {icon:'banknote',title:'Поймёте, где экономия разумна',desc:'Где можно сэкономить без потери качества'},
-  {icon:'shield-check',title:'Узнаете, где нельзя экономить никогда',desc:'Электрика, коммуникации — зоны безопасности'},
-  {icon:'calendar',title:'Сможете планировать этапы',desc:'Понятная последовательность: что и когда делать'}
-];
-var STEPS=[
-  {num:'1',icon:'credit-card',title:'Оплачиваете',desc:'Доступ открывается сразу после оплаты'},
-  {num:'2',icon:'play-circle',title:'Проходите разбор',desc:'Смотрите зоны по каждому узлу White Box'},
-  {num:'3',icon:'map',title:'Видите зоны риска',desc:'Получаете ясность по конкретным узлам вашей квартиры'},
-  {num:'4',icon:'check-circle',title:'Принимаете решение',desc:'Понимаете, что оставить, проверить, переделать'},
-  {num:'5',icon:'arrow-right-circle',title:'Начинаете осознанно',desc:'Не вслепую, а с пониманием того, что у вас сделано'}
-];
-var FOR_WHOM=['Получили ключи с White Box или квартирой с черновой отделкой','Готовитесь начать чистовую отделку','Хотите улучшить результат без больших вложений','Хотите понять, что оставить от застройщика','Не хотите платить за ремонт дважды'];
-var NOT_FOR_WHOM=['Ищете гарантию идеального результата без вложений','Хотите просто посмотреть красивое видео','Не готовы принимать решения по результатам разбора'];
-var FAQ=[
-  {q:'Может, у меня всё нормально?',a:'Может быть — и это хороший вариант. Задача проверки как раз в том, чтобы подтвердить: всё нормально и можно двигаться дальше.'},
-  {q:'Зачем платить, если я сам посмотрю?',a:'Посмотреть можно. Сложнее — понять, что именно смотреть, как оценить и что из этого относится к вашей ситуации.'},
-  {q:'Вы скажете всё переделывать?',a:'Нет. Смысл разбора — понять, что действительно требует вмешательства, а что в порядке. Без тотальной переделки.'},
-  {q:'У меня уже идёт ремонт. Поможет?',a:'Чем дальше продвинулся ремонт, тем важнее понять, что уже закрыто. Если есть возможность проверить до следующих работ — сделайте сейчас.'},
-  {q:'Застройщик дал гарантию. Зачем проверять?',a:'Гарантия не отменяет необходимости понимать, что именно вы получили. Разбор помогает задать правильные вопросы до начала следующих этапов.'},
-  {q:'Это выезд на объект или технадзор?',a:'Нет. Это цифровой разбор — доступ сразу после оплаты. Если нужен полный контроль с выездом, это отдельная услуга.'}
-];
+    var ZONES = [
+      { icon: 'layout-panel-left', num: '01', title: 'Стены', desc: 'Что действительно влияет на качество всей последующей отделки. Как понять, где нужно вмешаться до начала чистовой.', tip: 'Экономия на стенах обходится дороже всего' },
+      { icon: 'wind', num: '02', title: 'Окна', desc: 'Что такое правильная установка и нужно ли менять окна от застройщика. Как избежать холода, сквозняков и конденсата.', tip: 'Часто менять не нужно — нужно правильно настроить' },
+      { icon: 'thermometer', num: '03', title: 'Отопление', desc: 'Возможен ли в квартире комфорт как в коттедже. Что проверить и что можно улучшить без полной замены системы.', tip: 'Небольшие вложения — заметная разница' },
+      { icon: 'square-stack', num: '04', title: 'Полы', desc: 'Как исправить полусухую стяжку от застройщика и что выбрать: ламинат, кварцвинил или другое покрытие без порожков.', tip: 'Ровный пол — основа всего последующего ремонта' },
+      { icon: 'zap', num: '05', title: 'Электрика', desc: 'Как сэкономить без угрозы для жизни. Что можно оставить, что стоит проверить и где нельзя экономить никогда.', tip: 'Грамотная электрика — это безопасность' },
+      { icon: 'droplets', num: '06', title: 'Коммуникации · Водоснабжение', desc: 'Как не затопить соседей и не слить весь бюджет. Что проверить в трубах и стояках до начала финишной отделки.', tip: 'Проверьте до чистовой — после будет дороже' }
+    ];
+    var RESULTS = [
+      { icon: 'check-square', title: 'Поймёте, что улучшить в первую очередь', desc: 'Конкретные зоны и узлы — по каждой теме из разбора' },
+      { icon: 'thumbs-up', title: 'Узнаете, что можно оставить от застройщика', desc: 'Без лишних переделок и трат на ненужные работы' },
+      { icon: 'banknote', title: 'Поймёте, где экономия разумна', desc: 'Где можно сэкономить без потери качества' },
+      { icon: 'shield-check', title: 'Узнаете, где нельзя экономить никогда', desc: 'Электрика, коммуникации — зоны безопасности' },
+      { icon: 'calendar', title: 'Сможете планировать этапы', desc: 'Понятная последовательность: что и когда делать' }
+    ];
+    var STEPS = [
+      { num: '1', icon: 'credit-card', title: 'Оплачиваете', desc: 'Доступ открывается сразу после оплаты' },
+      { num: '2', icon: 'play-circle', title: 'Проходите разбор', desc: 'Смотрите зоны по каждому узлу White Box' },
+      { num: '3', icon: 'map', title: 'Видите зоны риска', desc: 'Получаете ясность по конкретным узлам вашей квартиры' },
+      { num: '4', icon: 'check-circle', title: 'Принимаете решение', desc: 'Понимаете, что оставить, проверить, переделать' },
+      { num: '5', icon: 'arrow-right-circle', title: 'Начинаете осознанно', desc: 'Не вслепую, а с пониманием того, что у вас сделано' }
+    ];
+    var FOR_WHOM = ['Получили ключи с White Box или квартирой с черновой отделкой', 'Готовитесь начать чистовую отделку', 'Хотите улучшить результат без больших вложений', 'Хотите понять, что оставить от застройщика', 'Не хотите платить за ремонт дважды'];
+    var NOT_FOR_WHOM = ['Ищете гарантию идеального результата без вложений', 'Хотите просто посмотреть красивое видео', 'Не готовы принимать решения по результатам разбора'];
+    var FAQ = [
+      { q: 'Может, у меня всё нормально?', a: 'Может быть — и это хороший вариант. Задача проверки как раз в том, чтобы подтвердить: всё нормально и можно двигаться дальше.' },
+      { q: 'Зачем платить, если я сам посмотрю?', a: 'Посмотреть можно. Сложнее — понять, что именно смотреть, как оценить и что из этого относится к вашей ситуации.' },
+      { q: 'Вы скажете всё переделывать?', a: 'Нет. Смысл разбора — понять, что действительно требует вмешательства, а что в порядке. Без тотальной переделки.' },
+      { q: 'У меня уже идёт ремонт. Поможет?', a: 'Чем дальше продвинулся ремонт, тем важнее понять, что уже закрыто. Если есть возможность проверить до следующих работ — сделайте сейчас.' },
+      { q: 'Застройщик дал гарантию. Зачем проверять?', a: 'Гарантия не отменяет необходимости понимать, что именно вы получили. Разбор помогает задать правильные вопросы до начала следующих этапов.' },
+      { q: 'Это выезд на объект или технадзор?', a: 'Нет. Это цифровой разбор — доступ сразу после оплаты. Если нужен полный контроль с выездом, это отдельная услуга.' }
+    ];
 
-var PRODUCT_ID = '6H9ooNAW13YuZyGAcn8aBw';
-function goToProduct() {
-  if (window.notibot && typeof window.notibot.openProduct === 'function') {
-    window.notibot.openProduct(PRODUCT_ID);
-  } else {
-    window.location.href = '/product/' + PRODUCT_ID;
-  }
-}
+    var PRODUCT_ID = '6H9ooNAW13YuZyGAcn8aBw';
+    function goToProduct() {
+      if (window.notibot && typeof window.notibot.openProduct === 'function') {
+        window.notibot.openProduct(PRODUCT_ID);
+      } else {
+        window.location.href = '/product/' + PRODUCT_ID;
+      }
+    }
 
-var html =
-'<div class="landing-wrap fade-in">' +
-// HERO
-'<section id="hero" class="hero-section"><div class="hero-bg"></div><div class="hero-bg-overlay"></div><div class="hero-content">' +
-'<div class="hero-badge"><span class="hero-badge-dot"></span>AB Studio · White Box</div>' +
-'<h1 class="hero-title">Как сделать ремонт<br>в White Box <em>намного лучше</em><br>за небольшие деньги</h1>' +
-'<p class="hero-sub">Подходит не только для White Box — актуально и для квартиры с черновой отделкой. Разбираем основные зоны, которые легко улучшить без кардинальных затрат.</p>' +
-'<div class="hero-topics">'+['Стены','Окна','Отопление','Полы','Электрика','Коммуникации','Водоснабжение'].map(function(t){return'<span class="hero-topic">'+t+'</span>'}).join('')+'</div>'+
-'<button id="hero-cta-btn" class="btn-primary btn-press hero-cta-btn" onclick="goToProduct()">Получить разбор — 1&nbsp;990&nbsp;₽</button>' +
-'<p class="hero-cta-hint">Доступ сразу после оплаты · Только практическое</p>' +
-'</div></section>' +
-// IMAGE BLOCK — картинка с GitHub Pages
-'<div class="video-section"><div class="image-placeholder-wrap" id="video-block">' +
-'<img id="video-image" class="placeholder-img" src="'+IMG+'video-preview.jpg" alt="Разбор White Box" loading="lazy" onerror="this.style.display=\'none\';document.getElementById(\'ph-label\').style.display=\'flex\'" />' +
-'<div id="ph-label" class="placeholder-label" style="display:none"><span>Изображение не найдено</span></div>' +
-'</div></div>' +
-// SITUATION
-'<section id="situation" class="section"><div class="situation-card card">' +
-'<div class="situation-quote">«Это видео будет полезно не только тем, у кого квартира White Box — а даже тем, у кого квартира с черновой отделкой...»</div>' +
-'<div class="divider"></div>' +
-'<p class="situation-text">Мы разберём основные моменты, которые можно улучшить за небольшие деньги — без кардинальных переделок. Всё по делу, без воды.</p>' +
-'<div class="situation-items">'+['Подходит для White Box и квартиры с черновой отделкой','Только реальные, практичные улучшения','Без «сносить всё» и лишних трат'].map(function(t){return'<div class="situation-item">'+ic('check-circle','situation-icon')+'<span>'+t+'</span></div>'}).join('')+
-'</div></div></section>' +
-// CONFLICT
-'<section id="conflict" class="section"><div class="section-label">Ключевой вопрос</div><h2 class="section-title">Два нежелательных сценария</h2>' +
-'<div class="zones-grid" style="margin-bottom:16px">' +
-'<div class="zone-card card" style="border-left:3px solid rgba(248,113,113,.4)"><div class="zone-icon-wrap" style="background:rgba(248,113,113,.1);border-color:rgba(248,113,113,.2);color:#f87171">'+ic('banknote','w-5 h-5')+'</div><div><div class="zone-num">Сценарий 01</div><div class="zone-title">Снести всё</div><div class="zone-desc">Переделать без понимания — потратить деньги на ненужные работы</div><div class="zone-tip" style="color:#f87171;background:rgba(248,113,113,.08)">'+ic('x','w-3 h-3')+' Дорого и нецелесообразно</div></div></div>' +
-'<div class="zone-card card" style="border-left:3px solid rgba(251,146,60,.4)"><div class="zone-icon-wrap" style="background:rgba(251,146,60,.1);border-color:rgba(251,146,60,.2);color:#fb923c">'+ic('eye-off','w-5 h-5')+'</div><div><div class="zone-num">Сценарий 02</div><div class="zone-title">Оставить всё как есть</div><div class="zone-desc">Сделать чистовую — а потом вскрывать и переделывать за двойную цену</div><div class="zone-tip" style="color:#fb923c;background:rgba(251,146,60,.08)">'+ic('alert-triangle','w-3 h-3')+' Рискованно</div></div></div>' +
-'</div>' +
-'<div class="zone-card card" style="border-left:3px solid rgba(201,169,110,.5);background:rgba(201,169,110,.06)"><div class="zone-icon-wrap">'+ic('check-circle-2','w-5 h-5')+'</div><div><div class="zone-num">Третий вариант</div><div class="zone-title">Проверить и улучшить — точечно</div><div class="zone-desc">Понять что оставить, что улучшить за небольшие деньги и что действительно переделать</div><div class="zone-tip">'+ic('check','w-3 h-3')+' Именно об этом разбор</div></div></div>' +
-'</section>' +
-// ZONES
-'<section id="zones" class="section"><div class="section-label">Что разбираем</div><h2 class="section-title">6 ключевых зон</h2><p class="section-subtitle">Основные моменты, которые влияют на качество ремонта и которые можно улучшить за небольшие деньги</p>' +
-'<div class="zones-grid">'+ZONES.map(function(z){return'<div class="zone-card card"><div class="zone-icon-wrap">'+ic(z.icon,'w-5 h-5')+'</div><div style="flex:1;min-width:0"><div class="zone-num">'+z.num+'</div><div class="zone-title">'+z.title+'</div><div class="zone-desc">'+z.desc+'</div><div class="zone-tip">'+ic('lightbulb','w-3 h-3')+' '+z.tip+'</div></div></div>'}).join('')+'</div></section>' +
-// RESULTS
-'<section id="results" class="section"><div class="section-label">Результат</div><h2 class="section-title">Что вы получите</h2>' +
-'<div class="card results-card">'+RESULTS.map(function(r,i){return'<div class="flex items-start gap-4"><div class="result-icon-wrap shrink-0">'+ic(r.icon,'w-4 h-4')+'</div><div class="flex-1 min-w-0"><h4 class="result-item-title">'+r.title+'</h4><p class="result-item-desc">'+r.desc+'</p></div></div>'+(i<RESULTS.length-1?'<div class="divider" style="margin:12px 0"></div>':'')}).join('')+'</div></section>' +
-// HOW IT WORKS
-'<section id="how-it-works" class="section"><div class="section-label">Процесс</div><h2 class="section-title">Как это работает</h2>' +
-'<div class="steps-list">'+STEPS.map(function(s,i){return'<div class="step-item"><div class="step-line-wrap"><div class="step-circle">'+ic(s.icon,'w-4 h-4')+'</div>'+(i<STEPS.length-1?'<div class="step-connector"></div>':'')+'</div><div class="step-content"><div class="step-num">Шаг '+s.num+'</div><div class="step-title">'+s.title+'</div><div class="step-desc">'+s.desc+'</div></div></div>'}).join('')+'</div></section>' +
-// EXPERT — фото с GitHub Pages
-'<section id="expert" class="section"><div class="section-label">Кто объясняет</div><h2 class="section-title">Эксперт</h2>' +
-'<div class="expert-card card">' +
-'<div class="expert-photo-wrap"><img id="expert-photo" class="expert-photo" src="'+IMG+'expert.jpg" alt="Алексей Белянин" loading="lazy" onerror="this.style.display=\'none\';document.getElementById(\'ef\').style.display=\'flex\'" /><div id="ef" class="expert-fallback" style="display:none">'+ic('user','w-10 h-10')+'</div><div class="expert-photo-overlay"></div></div>' +
-'<div class="expert-body"><div class="expert-name">Белянин Алексей</div><div class="expert-role">Руководитель AB Studio · Самара</div>' +
-'<div class="expert-stats">'+['Отделочник со стажем более <strong>12 лет</strong>','Сдано более <strong>2700 м²</strong>','Принято у застройщика более <strong>300 квартир</strong>','Более <strong>1,65 млн</strong> просмотров на YouTube','Основатель студии ремонта премиум-класса AB Studio'].map(function(s){return'<div class="expert-stat"><div class="expert-stat-bullet"></div><span>'+s+'</span></div>'}).join('')+'</div>' +
-'<div class="expert-media"><a class="expert-media-btn expert-media-btn--tg" href="https://t.me/abstudio" target="_blank">'+SVG_TG+' Telegram</a><a class="expert-media-btn expert-media-btn--yt" href="https://www.youtube.com/@abstudio" target="_blank">'+SVG_YT+' YouTube</a></div>' +
-'</div></div></section>' +
-// FOR WHOM
-'<section id="for-whom" class="section"><div class="section-label">Аудитория</div><h2 class="section-title">Для кого этот разбор</h2>' +
-'<div class="whom-grid">' +
-'<div class="card whom-card whom-card--for"><div class="whom-card-label">'+ic('user-check','w-4 h-4')+' Для кого</div><ul class="whom-list">'+FOR_WHOM.map(function(t){return'<li class="whom-item">'+ic('check','whom-icon whom-icon--for shrink-0')+'<span>'+t+'</span></li>'}).join('')+'</ul></div>' +
-'<div class="card whom-card whom-card--not"><div class="whom-card-label whom-card-label--not">'+ic('user-x','w-4 h-4')+' Не для кого</div><ul class="whom-list">'+NOT_FOR_WHOM.map(function(t){return'<li class="whom-item">'+ic('x','whom-icon whom-icon--not shrink-0')+'<span>'+t+'</span></li>'}).join('')+'</ul></div>' +
-'</div></section>' +
-// PRICING
-'<section id="pricing" class="section"><div class="section-label">Доступ к материалам</div><h2 class="section-title">White Box</h2>' +
-'<div class="pricing-card card"><div class="pricing-badge">Цифровой разбор</div><div class="pricing-name">Разбор White Box</div><div class="pricing-tagline">6 ключевых зон · Что улучшить за небольшие деньги</div><div class="divider"></div>' +
-'<div class="pricing-includes">'+['Разбор 6 зон: стены, окна, отопление, полы, электрика, коммуникации','Что проверить, оставить и где улучшить','Где экономить разумно, а где нельзя','Подходит для White Box и квартиры с черновой отделкой','Доступ сразу после оплаты'].map(function(t){return'<div class="pricing-include-item">'+ic('check','pricing-check-icon')+'<span>'+t+'</span></div>'}).join('')+'</div>' +
-'<div class="divider"></div><div class="pricing-price-row"><div class="pricing-price">1 990 <span class="pricing-currency">₽</span></div><div class="pricing-price-note">разовый платёж</div></div>' +
-'<button id="pricing-cta-btn" class="btn-primary btn-press pricing-btn" onclick="goToProduct()">Получить разбор</button>' +
-'<p class="pricing-guarantee">Без подхода «сносить всё» · Только практически полезное</p></div>' +
-'<div class="pricing-note">'+ic('info','w-4 h-4 shrink-0')+'<p>Разбор не заменяет выездной технадзор, если нужен полный контроль на объекте.</p></div></section>' +
-// FAQ
-'<section id="faq" class="section"><div class="section-label">Вопросы</div><h2 class="section-title">Ответы на вопросы</h2>' +
-'<div class="faq-list">'+FAQ.map(function(f,i){return'<div class="faq-item"><button class="faq-question btn-press" aria-expanded="false" onclick="toggleFaq('+i+')"><span>'+f.q+'</span><i data-lucide="chevron-down" class="faq-chevron w-4 h-4" id="faq-chevron-'+i+'"></i></button><div class="faq-answer" id="faq-answer-'+i+'" hidden><p>'+f.a+'</p></div></div>'}).join('')+'</div></section>' +
-// FINAL CTA
-'<section id="final-cta" class="final-cta-section"><div class="final-cta-bg"></div><div class="final-cta-overlay"></div><div class="final-cta-inner">' +
-'<h2 class="final-cta-title">Перед чистовой важно понять, <em>что у вас уже сделано</em></h2>' +
-'<p class="final-cta-text">Разберитесь, что в White Box оставить, что улучшить за небольшие деньги и что действительно переделать — до начала финишной отделки.</p>' +
-'<button id="final-cta-btn" class="btn-primary btn-press final-cta-btn" onclick="goToProduct()">Получить разбор — 1&nbsp;990&nbsp;₽</button>' +
-'<p class="final-cta-hint">Доступ сразу · Без подхода «сносить всё»</p>' +
-'</div></section>' +
-// FOOTER
-'<footer id="footer" class="footer-section"><div class="footer-name">Алексей Белянин</div><div class="footer-role">Руководитель AB Studio</div><div class="footer-divider"></div><p class="footer-quote">Практик, а не теоретик. Объясняю ремонт так, чтобы вы перестали бояться и начали контролировать.</p><div class="footer-copy">© AB STUDIO · 2026</div></footer>' +
-'</div>';
+    var html =
+      '<div class="landing-wrap fade-in">' +
+      // HERO
+      '<section id="hero" class="hero-section"><div class="hero-bg"></div><div class="hero-bg-overlay"></div><div class="hero-content">' +
+      '<div class="hero-badge"><span class="hero-badge-dot"></span>AB Studio · White Box</div>' +
+      '<h1 class="hero-title">Как сделать ремонт<br>в White Box <em>намного лучше</em><br>за небольшие деньги</h1>' +
+      '<p class="hero-sub">Подходит не только для White Box — актуально и для квартиры с черновой отделкой. Разбираем основные зоны, которые легко улучшить без кардинальных затрат.</p>' +
+      '<div class="hero-topics">' + ['Стены', 'Окна', 'Отопление', 'Полы', 'Электрика', 'Коммуникации', 'Водоснабжение'].map(function (t) { return '<span class="hero-topic">' + t + '</span>' }).join('') + '</div>' +
+      '<button id="hero-cta-btn" class="btn-primary btn-press hero-cta-btn" onclick="goToProduct()">Получить разбор — 1&nbsp;990&nbsp;₽</button>' +
+      '<p class="hero-cta-hint">Доступ сразу после оплаты · Только практическое</p>' +
+      '</div></section>' +
+      // IMAGE BLOCK — картинка с GitHub Pages
+      '<div class="video-section"><div class="image-placeholder-wrap" id="video-block">' +
+      '<img id="video-image" class="placeholder-img" src="' + IMG + 'video-preview.jpg" alt="Разбор White Box" loading="lazy" onerror="this.style.display=\'none\';document.getElementById(\'ph-label\').style.display=\'flex\'" />' +
+      '<div id="ph-label" class="placeholder-label" style="display:none"><span>Изображение не найдено</span></div>' +
+      '</div></div>' +
+      // SITUATION
+      '<section id="situation" class="section"><div class="situation-card card">' +
+      '<div class="situation-quote">«Это видео будет полезно не только тем, у кого квартира White Box — а даже тем, у кого квартира с черновой отделкой...»</div>' +
+      '<div class="divider"></div>' +
+      '<p class="situation-text">Мы разберём основные моменты, которые можно улучшить за небольшие деньги — без кардинальных переделок. Всё по делу, без воды.</p>' +
+      '<div class="situation-items">' + ['Подходит для White Box и квартиры с черновой отделкой', 'Только реальные, практичные улучшения', 'Без «сносить всё» и лишних трат'].map(function (t) { return '<div class="situation-item">' + ic('check-circle', 'situation-icon') + '<span>' + t + '</span></div>' }).join('') +
+      '</div></div></section>' +
+      // CONFLICT
+      '<section id="conflict" class="section"><div class="section-label">Ключевой вопрос</div><h2 class="section-title">Два нежелательных сценария</h2>' +
+      '<div class="zones-grid" style="margin-bottom:16px">' +
+      '<div class="zone-card card" style="border-left:3px solid rgba(248,113,113,.4)"><div class="zone-icon-wrap" style="background:rgba(248,113,113,.1);border-color:rgba(248,113,113,.2);color:#f87171">' + ic('banknote', 'w-5 h-5') + '</div><div><div class="zone-num">Сценарий 01</div><div class="zone-title">Снести всё</div><div class="zone-desc">Переделать без понимания — потратить деньги на ненужные работы</div><div class="zone-tip" style="color:#f87171;background:rgba(248,113,113,.08)">' + ic('x', 'w-3 h-3') + ' Дорого и нецелесообразно</div></div></div>' +
+      '<div class="zone-card card" style="border-left:3px solid rgba(251,146,60,.4)"><div class="zone-icon-wrap" style="background:rgba(251,146,60,.1);border-color:rgba(251,146,60,.2);color:#fb923c">' + ic('eye-off', 'w-5 h-5') + '</div><div><div class="zone-num">Сценарий 02</div><div class="zone-title">Оставить всё как есть</div><div class="zone-desc">Сделать чистовую — а потом вскрывать и переделывать за двойную цену</div><div class="zone-tip" style="color:#fb923c;background:rgba(251,146,60,.08)">' + ic('alert-triangle', 'w-3 h-3') + ' Рискованно</div></div></div>' +
+      '</div>' +
+      '<div class="zone-card card" style="border-left:3px solid rgba(201,169,110,.5);background:rgba(201,169,110,.06)"><div class="zone-icon-wrap">' + ic('check-circle-2', 'w-5 h-5') + '</div><div><div class="zone-num">Третий вариант</div><div class="zone-title">Проверить и улучшить — точечно</div><div class="zone-desc">Понять что оставить, что улучшить за небольшие деньги и что действительно переделать</div><div class="zone-tip">' + ic('check', 'w-3 h-3') + ' Именно об этом разбор</div></div></div>' +
+      '</section>' +
+      // ZONES
+      '<section id="zones" class="section"><div class="section-label">Что разбираем</div><h2 class="section-title">6 ключевых зон</h2><p class="section-subtitle">Основные моменты, которые влияют на качество ремонта и которые можно улучшить за небольшие деньги</p>' +
+      '<div class="zones-grid">' + ZONES.map(function (z) { return '<div class="zone-card card"><div class="zone-icon-wrap">' + ic(z.icon, 'w-5 h-5') + '</div><div style="flex:1;min-width:0"><div class="zone-num">' + z.num + '</div><div class="zone-title">' + z.title + '</div><div class="zone-desc">' + z.desc + '</div><div class="zone-tip">' + ic('lightbulb', 'w-3 h-3') + ' ' + z.tip + '</div></div></div>' }).join('') + '</div></section>' +
+      // RESULTS
+      '<section id="results" class="section"><div class="section-label">Результат</div><h2 class="section-title">Что вы получите</h2>' +
+      '<div class="card results-card">' + RESULTS.map(function (r, i) { return '<div class="flex items-start gap-4"><div class="result-icon-wrap shrink-0">' + ic(r.icon, 'w-4 h-4') + '</div><div class="flex-1 min-w-0"><h4 class="result-item-title">' + r.title + '</h4><p class="result-item-desc">' + r.desc + '</p></div></div>' + (i < RESULTS.length - 1 ? '<div class="divider" style="margin:12px 0"></div>' : '') }).join('') + '</div></section>' +
+      // HOW IT WORKS
+      '<section id="how-it-works" class="section"><div class="section-label">Процесс</div><h2 class="section-title">Как это работает</h2>' +
+      '<div class="steps-list">' + STEPS.map(function (s, i) { return '<div class="step-item"><div class="step-line-wrap"><div class="step-circle">' + ic(s.icon, 'w-4 h-4') + '</div>' + (i < STEPS.length - 1 ? '<div class="step-connector"></div>' : '') + '</div><div class="step-content"><div class="step-num">Шаг ' + s.num + '</div><div class="step-title">' + s.title + '</div><div class="step-desc">' + s.desc + '</div></div></div>' }).join('') + '</div></section>' +
+      // EXPERT — фото с GitHub Pages
+      '<section id="expert" class="section"><div class="section-label">Кто объясняет</div><h2 class="section-title">Эксперт</h2>' +
+      '<div class="expert-card card">' +
+      '<div class="expert-photo-wrap"><img id="expert-photo" class="expert-photo" src="' + IMG + 'expert.jpg" alt="Алексей Белянин" loading="lazy" onerror="this.style.display=\'none\';document.getElementById(\'ef\').style.display=\'flex\'" /><div id="ef" class="expert-fallback" style="display:none">' + ic('user', 'w-10 h-10') + '</div><div class="expert-photo-overlay"></div></div>' +
+      '<div class="expert-body"><div class="expert-name">Белянин Алексей</div><div class="expert-role">Руководитель AB Studio · Самара</div>' +
+      '<div class="expert-stats">' + ['Отделочник со стажем более <strong>12 лет</strong>', 'Сдано более <strong>2700 м²</strong>', 'Принято у застройщика более <strong>300 квартир</strong>', 'Более <strong>1,65 млн</strong> просмотров на YouTube', 'Основатель студии ремонта премиум-класса AB Studio'].map(function (s) { return '<div class="expert-stat"><div class="expert-stat-bullet"></div><span>' + s + '</span></div>' }).join('') + '</div>' +
+      '<div class="expert-media"><a class="expert-media-btn expert-media-btn--tg" href="https://t.me/abstudio" target="_blank">' + SVG_TG + ' Telegram</a><a class="expert-media-btn expert-media-btn--yt" href="https://www.youtube.com/@abstudio" target="_blank">' + SVG_YT + ' YouTube</a></div>' +
+      '</div></div></section>' +
+      // FOR WHOM
+      '<section id="for-whom" class="section"><div class="section-label">Аудитория</div><h2 class="section-title">Для кого этот разбор</h2>' +
+      '<div class="whom-grid">' +
+      '<div class="card whom-card whom-card--for"><div class="whom-card-label">' + ic('user-check', 'w-4 h-4') + ' Для кого</div><ul class="whom-list">' + FOR_WHOM.map(function (t) { return '<li class="whom-item">' + ic('check', 'whom-icon whom-icon--for shrink-0') + '<span>' + t + '</span></li>' }).join('') + '</ul></div>' +
+      '<div class="card whom-card whom-card--not"><div class="whom-card-label whom-card-label--not">' + ic('user-x', 'w-4 h-4') + ' Не для кого</div><ul class="whom-list">' + NOT_FOR_WHOM.map(function (t) { return '<li class="whom-item">' + ic('x', 'whom-icon whom-icon--not shrink-0') + '<span>' + t + '</span></li>' }).join('') + '</ul></div>' +
+      '</div></section>' +
+      // PRICING
+      '<section id="pricing" class="section"><div class="section-label">Доступ к материалам</div><h2 class="section-title">White Box</h2>' +
+      '<div class="pricing-card card"><div class="pricing-badge">Цифровой разбор</div><div class="pricing-name">Разбор White Box</div><div class="pricing-tagline">6 ключевых зон · Что улучшить за небольшие деньги</div><div class="divider"></div>' +
+      '<div class="pricing-includes">' + ['Разбор 6 зон: стены, окна, отопление, полы, электрика, коммуникации', 'Что проверить, оставить и где улучшить', 'Где экономить разумно, а где нельзя', 'Подходит для White Box и квартиры с черновой отделкой', 'Доступ сразу после оплаты'].map(function (t) { return '<div class="pricing-include-item">' + ic('check', 'pricing-check-icon') + '<span>' + t + '</span></div>' }).join('') + '</div>' +
+      '<div class="divider"></div><div class="pricing-price-row"><div class="pricing-price">1 990 <span class="pricing-currency">₽</span></div><div class="pricing-price-note">разовый платёж</div></div>' +
+      '<button id="pricing-cta-btn" class="btn-primary btn-press pricing-btn" onclick="goToProduct()">Получить разбор</button>' +
+      '<p class="pricing-guarantee">Без подхода «сносить всё» · Только практически полезное</p></div>' +
+      '<div class="pricing-note">' + ic('info', 'w-4 h-4 shrink-0') + '<p>Разбор не заменяет выездной технадзор, если нужен полный контроль на объекте.</p></div></section>' +
+      // FAQ
+      '<section id="faq" class="section"><div class="section-label">Вопросы</div><h2 class="section-title">Ответы на вопросы</h2>' +
+      '<div class="faq-list">' + FAQ.map(function (f, i) { return '<div class="faq-item"><button class="faq-question btn-press" aria-expanded="false" onclick="toggleFaq(' + i + ')"><span>' + f.q + '</span><i data-lucide="chevron-down" class="faq-chevron w-4 h-4" id="faq-chevron-' + i + '"></i></button><div class="faq-answer" id="faq-answer-' + i + '" hidden><p>' + f.a + '</p></div></div>' }).join('') + '</div></section>' +
+      // FINAL CTA
+      '<section id="final-cta" class="final-cta-section"><div class="final-cta-bg"></div><div class="final-cta-overlay"></div><div class="final-cta-inner">' +
+      '<h2 class="final-cta-title">Перед чистовой важно понять, <em>что у вас уже сделано</em></h2>' +
+      '<p class="final-cta-text">Разберитесь, что в White Box оставить, что улучшить за небольшие деньги и что действительно переделать — до начала финишной отделки.</p>' +
+      '<button id="final-cta-btn" class="btn-primary btn-press final-cta-btn" onclick="goToProduct()">Получить разбор — 1&nbsp;990&nbsp;₽</button>' +
+      '<p class="final-cta-hint">Доступ сразу · Без подхода «сносить всё»</p>' +
+      '</div></section>' +
+      // FOOTER
+      '<footer id="footer" class="footer-section"><div class="footer-name">Алексей Белянин</div><div class="footer-role">Руководитель AB Studio</div><div class="footer-divider"></div><p class="footer-quote">Практик, а не теоретик. Объясняю ремонт так, чтобы вы перестали бояться и начали контролировать.</p><div class="footer-copy">© AB STUDIO · 2026</div></footer>' +
+      '</div>';
 
-document.getElementById('app').innerHTML = html;
-if(window.lucide) lucide.createIcons();
-</script>
+    document.getElementById('app').innerHTML = html;
+    if (window.lucide) lucide.createIcons();
+  </script>
 </body>
+
 </html>
