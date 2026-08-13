@@ -1218,6 +1218,25 @@
 
     document.getElementById('app').innerHTML = html;
     if (window.lucide) lucide.createIcons();
+
+    // Кнопки «Получить разбор» → товар Notibot
+    (function() {
+      var PRODUCT_ID = '6H9ooNAW13YuZyGAcn8aBw';
+      function goToProduct() {
+        if (window.notibot && typeof window.notibot.openProduct === 'function') {
+          window.notibot.openProduct(PRODUCT_ID);
+        } else {
+          window.location.href = '/product/' + PRODUCT_ID;
+        }
+      }
+      // Делаем функцию глобальной (для onclick атрибутов)
+      window.goToProduct = goToProduct;
+      // Подключаем через addEventListener (обход CSP)
+      ['hero-cta-btn', 'pricing-cta-btn', 'final-cta-btn'].forEach(function(id) {
+        var btn = document.getElementById(id);
+        if (btn) btn.addEventListener('click', goToProduct);
+      });
+    })();
   </script>
 </body>
 

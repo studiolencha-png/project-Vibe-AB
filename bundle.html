@@ -303,7 +303,7 @@ function renderHero() {
         ['Стены','Окна','Отопление','Полы','Электрика','Коммуникации','Водоснабжение']
           .map(function(t){return '<span class="hero-topic">'+t+'</span>'}).join('') +
       '</div>' +
-      '<button id="hero-cta-btn" class="btn-primary btn-press hero-cta-btn" onclick="document.getElementById(\'pricing\').scrollIntoView({behavior:\'smooth\'})">Получить разбор — 1&nbsp;990&nbsp;₽</button>' +
+      '<button id="hero-cta-btn" class="btn-primary btn-press hero-cta-btn">Получить разбор — 1&nbsp;990&nbsp;₽</button>' +
       '<p class="hero-cta-hint">Доступ сразу после оплаты · Только практическое</p>' +
     '</div></section>';
 }
@@ -500,7 +500,7 @@ function renderFinalCta() {
     '<div class="final-cta-inner">' +
       '<h2 class="final-cta-title">Перед чистовой важно понять, <em>что у вас уже сделано</em></h2>' +
       '<p class="final-cta-text">Разберитесь, что в White Box оставить, что улучшить за небольшие деньги и что действительно переделать — до начала финишной отделки.</p>' +
-      '<button id="final-cta-btn" class="btn-primary btn-press final-cta-btn" onclick="document.getElementById(\'pricing\').scrollIntoView({behavior:\'smooth\'})">Получить разбор — 1&nbsp;990&nbsp;₽</button>' +
+      '<button id="final-cta-btn" class="btn-primary btn-press final-cta-btn">Получить разбор — 1&nbsp;990&nbsp;₽</button>' +
       '<p class="final-cta-hint">Доступ сразу · Без подхода «сносить всё»</p>' +
     '</div></section>';
 }
@@ -535,6 +535,22 @@ document.getElementById('app').innerHTML =
 
 // Инициализируем Lucide иконки
 if (window.lucide) lucide.createIcons();
+
+// Кнопки «Получить разбор» → товар Notibot
+(function() {
+  var PRODUCT_ID = '6H9ooNAW13YuZyGAcn8aBw';
+  function goToProduct() {
+    if (window.notibot && typeof window.notibot.openProduct === 'function') {
+      window.notibot.openProduct(PRODUCT_ID);
+    } else {
+      window.location.href = '/product/' + PRODUCT_ID;
+    }
+  }
+  ['hero-cta-btn', 'pricing-cta-btn', 'final-cta-btn'].forEach(function(id) {
+    var btn = document.getElementById(id);
+    if (btn) btn.addEventListener('click', goToProduct);
+  });
+})();
 </script>
 </body>
 </html>
